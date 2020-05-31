@@ -22,7 +22,7 @@ io.on('connection', function (socket) { //Bắt sự kiện một client kết n
   conn.connect(function (err){
     //if (err) throw err.stack;
     console.log("ket noi thanh cong");
-    let sql0 = `CREATE TABLE IF NOT EXISTS device_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,ThoiGian DATETIME DEFAULT CURTIME(), chieuquay VARCHAR(255), tocdo INT(10)) ENGINE = InnoDB` ;
+    let sql0 = `CREATE TABLE IF NOT EXISTS device_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, chieuquay VARCHAR(255), tocdo INT(10)) ENGINE = InnoDB` ;
       //console.log(sql0);
     conn.query(sql0, function (err) {
         //if (err) throw err;
