@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var mysql = require('mysql');
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
