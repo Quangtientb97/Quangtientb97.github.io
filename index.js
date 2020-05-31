@@ -33,6 +33,33 @@ io.on('connection', function (socket) { //Bắt sự kiện một client kết n
   	console.log("nhan mode");
   	io.sockets.in('control').emit('control_mode', data);
   });
+  socket.on('update_data', function (data) { //thông số động cơ
+    //socket.broadcast.emit('news', data); 
+    console.log("nhan update");
+    var data_json = JSON.stringify(data)
+    io.sockets.emit('news', socket.id + ' send all client: ' + data_json);
+    console.log(".");
+    console.log(data);
+    console.log("devide id: " + data.device_id);
+    console.log("tocdo: " + data.tocdo);
+    console.log("chieuquay: " + data.chieuquay);
+    conn.connect(function (err){
+    //if (err) throw err.stack;
+      //nếu thành công
+      let sql0 = `CREATE TABLE IF NOT EXISTS device${data.device_id}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,ThoiGian DATETIME DEFAULT CURTIME(), chieuquay VARCHAR(255), tocdo INT(10)) ENGINE = InnoDB` ;
+      //console.log(sql0);
+      conn.query(sql0, function (err) {
+          //if (err) throw err;
+          //console.log('Tao bang thanh cong');
+      });
+      let sql1 = `INSERT INTO device${data.device_id}_log(chieuquay, tocdo) values (  \'${data.chieuquay}\', \'${data.tocdo}\')` ;
+      //console.log(sql1);
+      conn.query(sql1, function (err) {
+          //if (err) throw err;
+          //console.log('Thay doi thanh cong');
+      });
+    });
+  });
 });
 
 app.get("/", function(req, res){
