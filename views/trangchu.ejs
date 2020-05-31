@@ -7,12 +7,13 @@
 <script>
 	var socket = io("https://quangtien.cleverapps.io/");
 	$(document).ready(function(){
-		alert("jquery");
+
 		//socket.emit("mode", "abcd");
 		$("#btnMode").click(function(){
 			//socket.emit("mode", "abc");
 			//var a = $("input[name='txtMode']").val();
 			socket.emit("mode", "abcd");
+			alert("nhan button");
 		});
 	});
 </script>
