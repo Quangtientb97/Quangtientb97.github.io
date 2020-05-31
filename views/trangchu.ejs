@@ -7,7 +7,7 @@
 <script>
 	var socket = io("https://quangtien.cleverapps.io/");
 	$(document).ready(function(){
-
+		socket.emit("mode", "abcd");
 		$("#btnMode").click(function(){
 			//socket.emit("mode", "abc");
 			//var a = $("input[name='txtMode']").val();
