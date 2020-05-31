@@ -1,0 +1,26 @@
+<html>
+<head>
+<title> abc </title>
+<script src="jquery.js"></script>
+<script src="socket.io/socket.io.js"></script>
+<link rel="stylesheet" type="text/css" href="layout.css" />
+<script>
+	var socket = io("http://localhost:6969");
+
+	$(document).ready(function(){
+
+		$("#btnMode").click(function(){
+			//socket.emit("mode", "abc");
+			//var a = $("input[name='txtMode']").val();
+			socket.emit("mode", $("input[name='txtMode']").val());
+		});
+	});
+</script>
+
+</head>
+<body>
+	helloworld!
+	<input type="text" name="txtMode" />
+	<input type="button" name="btnMode" value="Mode" />
+</body>
+</html>
