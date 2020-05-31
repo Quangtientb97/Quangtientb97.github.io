@@ -12,7 +12,7 @@
 		$("#btnMode").click(function(){
 			//socket.emit("mode", "abc");
 			//var a = $("input[name='txtMode']").val();
-			socket.emit("mode", "abcd");
+			socket.emit("mode", $("input[name='txtMode']").val());
 			alert("nhan button");
 		});
 	});
