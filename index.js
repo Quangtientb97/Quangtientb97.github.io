@@ -37,7 +37,6 @@ io.on('connection', function (socket) { //Bắt sự kiện một client kết n
     //socket.broadcast.emit('news', data); 
     console.log("nhan update");
     var data_json = JSON.stringify(data)
-    io.sockets.emit('news', socket.id + ' send all client: ' + data_json);
     console.log(".");
     console.log(data);
     console.log("devide id: " + data.device_id);
