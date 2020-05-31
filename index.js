@@ -20,7 +20,7 @@ io.on('connection', function (socket) { //Bắt sự kiện một client kết n
   console.log(socket.id + " connected");
   socket.join("control");
   conn.connect(function (err){
-    if (err) throw err.stack;
+    //if (err) throw err.stack;
     console.log("ket noi thanh cong");
     let sql0 = `CREATE TABLE IF NOT EXISTS device_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,ThoiGian DATETIME DEFAULT CURTIME(), chieuquay VARCHAR(255), tocdo INT(10)) ENGINE = InnoDB` ;
       //console.log(sql0);
