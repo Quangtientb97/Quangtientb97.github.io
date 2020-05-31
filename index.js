@@ -33,6 +33,9 @@ io.on('connection', function (socket) { //Bắt sự kiện một client kết n
   	console.log("nhan mode");
   	io.sockets.in('control').emit('control_mode', data);
   });
+  socket.on('client-gui-user', function(data){
+  	console.log("nhan client-gui-user");
+  });  
   socket.on('update_data', function (data) { //thông số động cơ
     //socket.broadcast.emit('news', data); 
     console.log("nhan update");
