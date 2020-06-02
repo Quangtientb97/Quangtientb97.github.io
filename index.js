@@ -6,8 +6,6 @@ var bodyParser = require('body-parser');
 var app = express();
 var fs = require("fs");
 
-
-server.listen(8080);
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
@@ -176,7 +174,7 @@ io.on('connection', function (socket) { //Bắt sự kiện một client kết n
   });
 
   //app
-  
+
 });
 
 app.get("/", function(req, res){
