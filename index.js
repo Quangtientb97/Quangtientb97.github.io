@@ -169,5 +169,5 @@ io.on('connection', function (socket) { //Bắt sự kiện một client kết n
 });
 
 app.get("/admin", function(req, res){
-	res.render("dangnhap");
+	res.render("dangnhap.php");
 })
