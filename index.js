@@ -23,7 +23,7 @@ var conn = mysql.createConnection({
 
 /*---------------------------------------------------------------------------*/
 //Giang
-var getRandomString =function(length){
+/*var getRandomString =function(length){
   return crypto.randomBytes(Math.ceil(length/2))
   .toString('hex') // convert to hexa
   .slice(0,length); // return required number of char
