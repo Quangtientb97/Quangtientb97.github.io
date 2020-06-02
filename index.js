@@ -23,7 +23,7 @@ var conn = mysql.createConnection({
 
 /*---------------------------------------------------------------------------*/
 //Giang
-/*var getRandomString =function(length){
+var getRandomString =function(length){
   return crypto.randomBytes(Math.ceil(length/2))
   .toString('hex') // convert to hexa
   .slice(0,length); // return required number of char
@@ -52,7 +52,6 @@ function checkHashPassword(userPassword,salt){
 
 };
 
-var app = express();
 app.use(bodyParser.json()); //accept json params
 app.use(bodyParser.urlencoded({extended: true})); // accept url encoded param
 
@@ -91,34 +90,26 @@ app.post('/register/',(req,res,next)=>{
 
 //login
 app.post('/login/',(req,res,next)=>{
-var post_data = req.body;
-var user_password = post_data.password;
-var email = post_data.email;
+  var post_data = req.body;
+  var user_password = post_data.password;
+  var email = post_data.email;
 
-con.query('SELECT * FROM user where email=?',[email], function(err,result, fields){
+  con.query('SELECT * FROM user where email=?',[email], function(err,result, fields){
     con.on('error',function(err){
       console.log('mysql error',err);
     });
-    if (result && result.length)
-    {
-
+    if (result && result.length){
       var salt = result[0].salt;
       var encrypted_password = result[0].encrypted_password;
       var hashed_password = checkHashPassword(user_password,salt).passwordHash.slice(0,16);
       if (encrypted_password == hashed_password) 
         res.end(JSON.stringify(result[0]));
-
       else
-        res.end(JSON.stringify('Sai mật khẩu'));
-      
-     }
-    
-  else
-  {
-    
-  res.json('Tài khoản chưa tồn tại');
-  }
-
+        res.end(JSON.stringify('Sai mật khẩu'));   
+    }   
+    else{
+      res.json('Tài khoản chưa tồn tại');
+    }
   });
 });
 //end Giang
