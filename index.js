@@ -129,12 +129,12 @@ io.on('connection', function (socket) { //Bắt sự kiện một client kết n
         //if (err) throw err;
         console.log('Tao bang thanh cong');
     });*/
-    con.query('CREATE TABLE IF NOT EXISTS device3_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, chieuquay VARCHAR(255), tocdo INT(10)) ENGINE = InnoDB', function(err,result, fields){
+    /*con.query('CREATE TABLE IF NOT EXISTS device3_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, chieuquay VARCHAR(255), tocdo INT(10)) ENGINE = InnoDB', function(err,result, fields){
         con.on('error',function(err){
           console.log('mysql error',err);
         });
         console.log('Tao bang device3_log thanh cong');
-    });
+    });*/
 
 
     socket.on('mode', function(data){
