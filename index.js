@@ -168,6 +168,6 @@ io.on('connection', function (socket) { //Bắt sự kiện một client kết n
 
 });
 
-app.get("/", function(req, res){
+app.get("/admin", function(req, res){
 	res.render("trangchu");
 })
