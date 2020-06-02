@@ -127,6 +127,9 @@ io.on('connection', function (socket) { //Bắt sự kiện một client kết n
       //console.log(sql0);
     conn.query(sql0, function (err) {
         //if (err) throw err;
+        conn.on('error',function(err){
+          console.log('mysql error',err);
+        });       
         console.log('Tao bang thanh cong');
     });
   });
