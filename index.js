@@ -1,6 +1,13 @@
+var crypto = require('crypto');
+var uuid = require('uuid');
 var express = require('express');
-var app = express();
 var mysql = require('mysql');
+var bodyParser = require('body-parser');
+var app = express();
+var fs = require("fs");
+
+
+server.listen(8080);
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
@@ -16,8 +23,113 @@ var conn = mysql.createConnection({
       database: 'bsywt8xxwecvkrkhr23n',
 });
 
+/*---------------------------------------------------------------------------*/
+//Giang
+var getRandomString =function(length){
+  return crypto.randomBytes(Math.ceil(length/2))
+  .toString('hex') // convert to hexa
+  .slice(0,length); // return required number of char
+};
+
+var sha512 = function(password,salt){
+  var hash = crypto.createHmac('sha512',salt); 
+  hash.update(password);
+  var value = hash.digest('hex');
+  return{
+    salt:salt,
+    passwordHash:value
+  };
+};
+
+function saltHashPassword(userPassword){
+var salt = getRandomString(16);
+var passwordData = sha512(userPassword,salt);
+return passwordData;
+};
+
+function checkHashPassword(userPassword,salt){
+
+  var passwordData = sha512(userPassword,salt);
+  return passwordData;
+
+};
+
+var app = express();
+app.use(bodyParser.json()); //accept json params
+app.use(bodyParser.urlencoded({extended: true})); // accept url encoded param
+
+// register
+app.post('/register/',(req,res,next)=>{
+
+  var post_data = req.body;
+  var uid = uuid.v4();
+  var plaint_password = post_data.password;
+  var hash_data = saltHashPassword(plaint_password);
+  var password  = hash_data.passwordHash;
+  var salt = hash_data.salt;
+  var name = post_data.name;
+  var email = post_data.email;
+
+  con.query('SELECT * FROM user where email=?',[email], function(err,result, fields){
+    con.on('error',function(err){
+      console.log('mysql error',err);
+    });
+
+    if (result && result.length)
+    res.json('Tài khoản đã tồn tại');
+  else{
+    con.query('INSERT INTO `user`(`unique_id`, `name`, `email`, `encrypted_password`, `salt`, `create_at`, `updated_at`) VALUES (?,?,?,?,?,NOW(),NOW())',[uid,name,email,password,salt],function(err,result, fields){
+    con.on('error',function(err){
+      console.log('mysql error',err);
+      res.json('không thành công',err);
+      
+    });
+    res.json('thành công');
+  });
+  }
+  }); 
+});
+
+
+//login
+app.post('/login/',(req,res,next)=>{
+var post_data = req.body;
+var user_password = post_data.password;
+var email = post_data.email;
+
+con.query('SELECT * FROM user where email=?',[email], function(err,result, fields){
+    con.on('error',function(err){
+      console.log('mysql error',err);
+    });
+    if (result && result.length)
+    {
+
+      var salt = result[0].salt;
+      var encrypted_password = result[0].encrypted_password;
+      var hashed_password = checkHashPassword(user_password,salt).passwordHash.slice(0,16);
+      if (encrypted_password == hashed_password) 
+        res.end(JSON.stringify(result[0]));
+
+      else
+        res.end(JSON.stringify('Sai mật khẩu'));
+      
+     }
+    
+  else
+  {
+    
+  res.json('Tài khoản chưa tồn tại');
+  }
+
+  });
+});
+//end Giang
+/*-------------------------------------------------------------------------------*/
 io.on('connection', function (socket) { //Bắt sự kiện một client kết nối đến server
   console.log(socket.id + " connected");
+
+
+  //device
   socket.join("control");
   conn.connect(function (err){
     //if (err) throw err.stack;
@@ -62,6 +174,9 @@ io.on('connection', function (socket) { //Bắt sự kiện một client kết n
       });
     });
   });
+
+  //app
+  
 });
 
 app.get("/", function(req, res){
