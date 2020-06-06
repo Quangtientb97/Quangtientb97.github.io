@@ -150,7 +150,9 @@ io.on('connection', function (socket) { //Bắt sự kiện một client kết n
     console.log("tocdo: " + data.tocdo);
     console.log("chieuquay: " + data.chieuquay);
     conn.connect(function (err){
-    //if (err) throw err.stack;
+      conn.on('error',function(err){
+        console.log('mysql error',err);
+      });
       //nếu thành công
       let sql0 = `CREATE TABLE IF NOT EXISTS device${data.device_id}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,ThoiGian DATETIME DEFAULT CURTIME(), chieuquay VARCHAR(255), tocdo INT(10)) ENGINE = InnoDB` ;
       //console.log(sql0);
