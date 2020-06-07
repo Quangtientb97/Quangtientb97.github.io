@@ -10,10 +10,10 @@ var fs = require("fs");
 server.listen(8080);
 require('events').EventEmitter.prototype._maxListeners = 100;
 var con = mysql.createConnection({
-      host    : 'bsywt8xxwecvkrkhr23n-mysql.services.clever-cloud.com',
-      user    : 'usu17j382kwvccl2',
-      password: 'cujVo7AgzcaJf671v3bc',
-      database: 'bsywt8xxwecvkrkhr23n',
+ host: "b034kdbmfuvinopgjuse-mysql.services.clever-cloud.com",
+  user: "u20nnlbcqemoj3jy",
+  password: "t7zRtkGhq0F1svEcGKlC",
+   database: "b034kdbmfuvinopgjuse"
 });
 var ketqua;
 
@@ -209,5 +209,8 @@ io.sockets.on('connection', function(socket){
 //	});
 //}
 
+var asiaTime = new Date().toLocaleString("en-US", {timeZone: "Asia/Ho_chi_minh"});
+asiaTime = new Date(asiaTime);
+console.log('Asia time: '+asiaTime.toLocaleString())
 
 
