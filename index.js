@@ -176,6 +176,10 @@ io.sockets.on('connection', function(socket){
 		});	
 	});
 
+	var asiaTime = new Date().toLocaleString("en-US", {timeZone: "Asia/Ho_chi_minh"});
+	asiaTime = new Date(asiaTime);
+	console.log('Asia time: ' + asiaTime.toLocaleString());
+
 
 
 
@@ -209,8 +213,6 @@ io.sockets.on('connection', function(socket){
 //	});
 //}
 
-var asiaTime = new Date().toLocaleString("en-US", {timeZone: "Asia/Ho_chi_minh"});
-asiaTime = new Date(asiaTime);
-console.log('Asia time: '+asiaTime.toLocaleString())
+
 
 
