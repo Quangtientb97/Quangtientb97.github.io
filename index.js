@@ -139,7 +139,7 @@ io.sockets.on('connection', function(socket){
 				console.log('mysql error 142',err);
 			});
 		});
-		sql = `INSERT INTO device${data.device_id}_log(chieuquay, tocdo, Thoigian) values (  \'${data.chieuquay}\', \'${data.tocdo}\', \'${asiaTime}\')`;
+		sql = `INSERT INTO device${data.device_id}_log(chieuquay, tocdo, Thoigian) values (  \'${data.chieuquay}\', \'${data.tocdo}\', CURTIME() + 7)`;
 		con.query(sql, function(err){
 			con.on('error', function(err){
 				console.log('mysql error 148',err);
