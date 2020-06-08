@@ -140,7 +140,8 @@ io.sockets.on('connection', function(socket){
 		var noidung;
 		var dulieu = data.rota + ' ' + data.mode ;		
 		// gửi sang thiết bị
-		io.to(`${device_id}`).emit('send-motor', dulieu);
+		//io.to(`${device_id}`).emit('send-motor', dulieu);
+		io.sockets.emit('send-motor', dulieu); // gửi cho tất cả client
 		console.log(dulieu);
 	});
 	//update_data device
