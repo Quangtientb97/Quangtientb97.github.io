@@ -175,6 +175,7 @@ io.sockets.on('connection', function(socket){
 	//tao socket_id
 	socket.on('join-room-device', function(data){
 		socket.id = data;
+		console.log('socket id: ' + socket.id);
 	});	
 
 
