@@ -150,6 +150,7 @@ io.sockets.on('connection', function(socket){
 	//join room
 	socket.on('join-room-device', function(data){
 		socket.id = data;
+		console.log(socket.id + 'connected');
 	});
 
 	/*var asiaTime = new Date().toLocaleString("en-US", {timeZone: "Asia/Ho_chi_minh"});
