@@ -18,6 +18,7 @@ var con = mysql.createConnection({
 var ketqua;
 
 
+//handleDisconnect();
 
 
 /*password ---------------------------------------------------------*/
@@ -110,13 +111,12 @@ io.sockets.on('connection', function(socket){
 			if (result && result.length){
 				var salt = result[0].salt;
 				var encrypted_password = result[0].encrypted_password;
-				socket.id          = result[0].unique_id;
 				var hashed_password = checkHashPassword(user_password,salt).passwordHash.slice(0,16);
 				if (encrypted_password == hashed_password) {
 					ketqua = true;
+					//res.end(JSON.stringify(result[0]));
 					console.log('dang nhap thanh cong');
-					console.log(result[0].unique_id);
-					console.log('socket.id '+socket.id);
+					console.log(result[0]);
 				}
 				else{
 					ketqua = false;
@@ -130,8 +130,32 @@ io.sockets.on('connection', function(socket){
 			socket.emit('ket-qua-dang-nhap',{noidung: ketqua});
 		});
 	});
-	
-	// test gui nhan du lieu
+	//update_data device
+	socket.on('update_data', function(data){
+		console.log(data);
+		console.log('socket id la: ' + socket.id);
+		let sql = `CREATE TABLE IF NOT EXISTS device${data.device_id}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,ThoiGian DATETIME, chieuquay VARCHAR(255), tocdo INT(10)) ENGINE = InnoDB` ;
+		con.query(sql, function(err){
+			con.on('error', function(err){
+				console.log('mysql error 142',err);
+			});
+		});
+		sql = `INSERT INTO device${data.device_id}_log(chieuquay, tocdo, Thoigian) values (  \'${data.chieuquay}\', \'${data.tocdo}\', CURTIME())`;
+		con.query(sql, function(err){
+			con.on('error', function(err){
+				console.log('mysql error 148',err);
+			});
+		});		
+	});
+	//join room
+	socket.on('join-room-device', function(data){
+		socket.id = data;
+	});
+
+	/*var asiaTime = new Date().toLocaleString("en-US", {timeZone: "Asia/Ho_chi_minh"});
+	asiaTime = new Date(asiaTime);
+	console.log('Asia time: ' + asiaTime.toLocaleString());*/
+
 	socket.on('receive-motor', function(data){
 		console.log(data);
 		var rota      = data.rota;
@@ -139,44 +163,8 @@ io.sockets.on('connection', function(socket){
 		var device_id = data.device_id;
 		var noidung;
 		var dulieu = data.rota + ' ' + data.mode ;		
-		// gửi sang thiết bị
-		//io.to(`${device_id}`).emit('send-motor', dulieu);
 		io.sockets.emit('send-motor', dulieu); // gửi cho tất cả client
 		console.log(dulieu);
-	});
-	//update_data device
-	socket.on('update_data', function(data){
-		console.log(data);
-		var chieuquay = data.chieuquay;
-		var tocdo     = data.tocdo;
-		var device_id = data.device_id;
-		con.query(`CREATE TABLE IF NOT EXISTS device${data.device_id}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,ThoiGian DATETIME, chieuquay VARCHAR(255), tocdo INT(10)) ENGINE = InnoDB`, function(err,result, fields){
-			con.on('error', function(err){
-				console.log('mysql error 142',err);
-			});
-		});
-		con.query('UPDATE devices SET tocdo = ? , chieuquay = ?  WHERE device_id = ?', [ tocdo , chieuquay , device_id ] , function(err,result, fields){
-			con.on('error', function(err){
-				console.log('mysql error 152',err);
-			
-		});
-			console.log(result);
-		});
-		
-		con.query(`INSERT INTO device${data.device_id}_log ( ThoiGian , chieuquay , tocdo )  VALUES  (CURTIME(), \'${chieuquay}\', \'${tocdo}\')`,function(err,result, fields){
-			con.on('error', function(err){
-				console.log('mysql error 148',err);
-			});
-			console.log('log',result);
-		});		
-	
-});
-
-
-	//tao socket_id
-	socket.on('join-room-device', function(data){
-		socket.id = data;
-		console.log('socket id: ' + socket.id);
 	});	
 
 
@@ -184,3 +172,42 @@ io.sockets.on('connection', function(socket){
 
 //end io
 });
+
+//
+//function handleDisconnect() {
+//	 con = mysql.createConnection({
+//	 host: "b034kdbmfuvinopgjuse-mysql.services.clever-cloud.com",
+//	  user: "u20nnlbcqemoj3jy",
+//	  password: "t7zRtkGhq0F1svEcGKlC",
+//	   database: "b034kdbmfuvinopgjuse"
+//	});
+//
+//	con.connect(function(err) {              // The server is either down
+//	    if(err) {                                     // or restarting (takes a while sometimes).
+//	      console.log('error when connecting to db:', err);
+//	      setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+//	    }                                     // to avoid a hot loop, and to allow our node script to
+//	});                                     // process asynchronous requests in the meantime.
+//	                                          // If you're also serving http, display a 503 error.
+//	con.on('error', function(err) {
+//	    console.log('db error', err);
+//	    if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+//	      handleDisconnect();
+//	      console.log("ket noi lai");                         // lost due to either server restart, or a
+//	    } else {                                      // connnection idle timeout (the wait_timeout
+//	      throw err;                                  // server variable configures this)
+//	    }
+//	});
+//}
+
+
+
+
+
+//var date = new Date().toLocaleString("en-US", {timeZone: "Asia/Ho_chi_minh"}).slice(0, 19).replace('T', ' ');
+var date = new Date().toISOString();//.slice(0, 19).replace('T', ' ');
+console.log(date);
+
+
+var date = new Date().toLocaleString("en-US", {timeZone: "Asia/Ho_chi_minh"});
+
