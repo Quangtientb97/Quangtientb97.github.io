@@ -132,6 +132,12 @@ io.sockets.on('connection', function(socket){
 	});
 	//update_data device
 	socket.on('update_data', function(data){
+		var con = mysql.createConnection({
+		 host: "b034kdbmfuvinopgjuse-mysql.services.clever-cloud.com",
+		  user: "u20nnlbcqemoj3jy",
+		  password: "t7zRtkGhq0F1svEcGKlC",
+		   database: "b034kdbmfuvinopgjuse"
+		});
 		console.log(data);
 		console.log('socket id la: ' + socket.id);
 		let sql = `CREATE TABLE IF NOT EXISTS device${data.device_id}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,ThoiGian DATETIME, chieuquay VARCHAR(255), tocdo INT(10)) ENGINE = InnoDB` ;
