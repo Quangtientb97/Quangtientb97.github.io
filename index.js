@@ -133,13 +133,14 @@ io.sockets.on('connection', function(socket){
 	//update_data device
 	socket.on('update_data', function(data){
 		console.log(data);
+		console.log('socket id la: ' + socket.id);
 		let sql = `CREATE TABLE IF NOT EXISTS device${data.device_id}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,ThoiGian DATETIME, chieuquay VARCHAR(255), tocdo INT(10)) ENGINE = InnoDB` ;
 		con.query(sql, function(err){
 			con.on('error', function(err){
 				console.log('mysql error 142',err);
 			});
 		});
-		sql = `INSERT INTO device${data.device_id}_log(chieuquay, tocdo, Thoigian) values (  \'${data.chieuquay}\', \'${data.tocdo}\', CURTIME() + 7)`;
+		sql = `INSERT INTO device${data.device_id}_log(chieuquay, tocdo, Thoigian) values (  \'${data.chieuquay}\', \'${data.tocdo}\', CURTIME())`;
 		con.query(sql, function(err){
 			con.on('error', function(err){
 				console.log('mysql error 148',err);
@@ -148,8 +149,8 @@ io.sockets.on('connection', function(socket){
 	});
 	//join room
 	socket.on('join-room-device', function(data){
-		var device_id = data;
-		con.query('SELECT `unique_id` FROM devices where device_id=?',[device_id], function(err,result, fields){
+		socket.id = data;
+		/*con.query('SELECT `unique_id` FROM devices where device_id=?',[device_id], function(err,result, fields){
 			con.on('error',function(err){
 				console.log('mysql error 157',err);
 			});
@@ -158,9 +159,9 @@ io.sockets.on('connection', function(socket){
 			console.log(socket.id + "da join phong: " + result[0].unique_id);
 			socket.join(room);
 			console.log(socket.adapter.rooms);
-		});	
+		});	*/
 	});
-	socket.on('join-room-app', function(data){
+	/*socket.on('join-room-app', function(data){
 		var email = data.email;
 		con.query('SELECT * FROM users where email = ? ',[email], function(err,result, fields){
 			con.on('error',function(err){
@@ -174,7 +175,7 @@ io.sockets.on('connection', function(socket){
 			//danh sach client trong room
 			console.log(clients);
 		});	
-	});
+	});*/
 
 	var asiaTime = new Date().toLocaleString("en-US", {timeZone: "Asia/Ho_chi_minh"});
 	asiaTime = new Date(asiaTime);
