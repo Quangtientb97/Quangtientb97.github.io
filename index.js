@@ -166,6 +166,10 @@ io.sockets.on('connection', function(socket){
 		io.sockets.emit('send-motor', dulieu); // gửi cho tất cả client
 		console.log(dulieu);
 	});	
+	socket.on('disconnect', function(data){
+		console.log(socket.id + 'disconnect');
+	});	
+
 
 
 
