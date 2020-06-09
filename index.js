@@ -172,7 +172,7 @@ io.sockets.on('connection', function(socket){
 		const obj = JSON.parse(json);
 		console.log(device_id);
 
-		io.to(device_id).emit('send-motor', obj);
+		socket.to(device_id).emit('send-motor', obj);
 	});	
 	socket.on('disconnect', function(data){
 		console.log(socket.id + 'disconnect');
