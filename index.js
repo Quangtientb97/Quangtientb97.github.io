@@ -165,13 +165,11 @@ io.sockets.on('connection', function(socket){
 
 	socket.on('receive-motor', function(data){
 		console.log(data);
-		var rota      = data.rota;
-		var mode      = data.mode;
-		var device_id = data.device_id;
-		var noidung;
-		var dulieu = data.rota + ' ' + data.mode ;		
+		//var rota      = data.rota;
+		//var mode      = data.mode;
+		//var device_id = data.device_id;
+		var dulieu = `{"rota":${data.rota},"mode":${data.mode}}`;	
 		io.sockets.emit('send-motor', dulieu); // gửi cho tất cả client
-		console.log(dulieu);
 	});	
 	socket.on('disconnect', function(data){
 		console.log(socket.id + 'disconnect');
