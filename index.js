@@ -165,6 +165,7 @@ io.sockets.on('connection', function(socket){
 	console.log('Asia time: ' + asiaTime.toLocaleString());*/
 
 	socket.on('receive-motor', function(data){
+		console.log(socket.id + ' connected');
 		console.log(data);
 		//var rota      = data.rota;
 		//var mode      = data.mode;
