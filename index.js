@@ -16,6 +16,7 @@ var con = mysql.createConnection({
    database: "b034kdbmfuvinopgjuse"
 });
 var ketqua;
+var device = {};
 
 
 //handleDisconnect();
@@ -155,7 +156,7 @@ io.sockets.on('connection', function(socket){
 	});
 	//join room
 	socket.on('join-room-device', function(data){
-		socket.id = data;
+		device[data] = socket.id;
 		console.log(socket.id + ' connected');
 	});
 
@@ -171,8 +172,7 @@ io.sockets.on('connection', function(socket){
 		var json = `{"rota":${data.rota},"mode":${data.mode}}`;	
 		const obj = JSON.parse(json);
 		console.log(device_id);
-
-		socket.to(device_id).emit('send-motor', obj);
+		socket.to(device[device_id]).emit('send-motor', obj);
 	});	
 	socket.on('disconnect', function(data){
 		console.log(socket.id + 'disconnect');
