@@ -171,7 +171,7 @@ io.sockets.on('connection', function(socket){
 		var json = `{"rota":${data.rota},"mode":${data.mode}}`;	
 		const obj = JSON.parse(json);
 
-		io.sockets.emit('send-motor', obj); // gửi cho tất cả client
+		io.to(`${device_id}`).emit('send-motor', obj);
 	});	
 	socket.on('disconnect', function(data){
 		console.log(socket.id + 'disconnect');
