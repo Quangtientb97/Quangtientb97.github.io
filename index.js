@@ -168,8 +168,10 @@ io.sockets.on('connection', function(socket){
 		//var rota      = data.rota;
 		//var mode      = data.mode;
 		//var device_id = data.device_id;
-		var dulieu = `{"rota":${data.rota},"mode":${data.mode}}`;	
-		io.sockets.emit('send-motor', dulieu); // gửi cho tất cả client
+		var json = `{"rota":${data.rota},"mode":${data.mode}}`;	
+		const obj = JSON.parse(json);
+
+		io.sockets.emit('send-motor', obj); // gửi cho tất cả client
 	});	
 	socket.on('disconnect', function(data){
 		console.log(socket.id + 'disconnect');
