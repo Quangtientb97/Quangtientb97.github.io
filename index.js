@@ -170,6 +170,7 @@ io.sockets.on('connection', function(socket){
 		var device_id = data.device_id;
 		var json = `{"rota":${data.rota},"mode":${data.mode}}`;	
 		const obj = JSON.parse(json);
+		console.log(device_id);
 
 		io.to(device_id).emit('send-motor', obj);
 	});	
