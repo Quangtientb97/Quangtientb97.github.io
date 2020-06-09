@@ -167,11 +167,11 @@ io.sockets.on('connection', function(socket){
 		console.log(data);
 		//var rota      = data.rota;
 		//var mode      = data.mode;
-		//var device_id = data.device_id;
+		var device_id = data.device_id;
 		var json = `{"rota":${data.rota},"mode":${data.mode}}`;	
 		const obj = JSON.parse(json);
 
-		io.to(`${data.device_id}`).emit('send-motor', obj);
+		io.to(device_id).emit('send-motor', obj);
 	});	
 	socket.on('disconnect', function(data){
 		console.log(socket.id + 'disconnect');
