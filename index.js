@@ -133,12 +133,6 @@ io.sockets.on('connection', function(socket){
 	});
 	//update_data device
 	socket.on('update_data', function(data){
-		var con = mysql.createConnection({
-		 host: "b034kdbmfuvinopgjuse-mysql.services.clever-cloud.com",
-		  user: "u20nnlbcqemoj3jy",
-		  password: "t7zRtkGhq0F1svEcGKlC",
-		   database: "b034kdbmfuvinopgjuse"
-		});
 		console.log(data);
 		console.log('socket id la: ' + socket.id);
 		let sql = `CREATE TABLE IF NOT EXISTS device${data.device_id}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,ThoiGian DATETIME, chieuquay VARCHAR(255), tocdo INT(10)) ENGINE = InnoDB` ;
@@ -172,7 +166,6 @@ io.sockets.on('connection', function(socket){
 		var device_id = data.device_id;
 		var json = `{"rota":${data.rota},"mode":${data.mode}}`;	
 		const obj = JSON.parse(json);
-		console.log(device_id);
 		socket.to(device[device_id]).emit('send-motor', obj);
 		console.log('send to' + device[device_id]);
 	});	
@@ -187,32 +180,32 @@ io.sockets.on('connection', function(socket){
 //end io
 });
 
-//
-//function handleDisconnect() {
-//	 con = mysql.createConnection({
-//	 host: "b034kdbmfuvinopgjuse-mysql.services.clever-cloud.com",
-//	  user: "u20nnlbcqemoj3jy",
-//	  password: "t7zRtkGhq0F1svEcGKlC",
-//	   database: "b034kdbmfuvinopgjuse"
-//	});
-//
-//	con.connect(function(err) {              // The server is either down
-//	    if(err) {                                     // or restarting (takes a while sometimes).
-//	      console.log('error when connecting to db:', err);
-//	      setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
-//	    }                                     // to avoid a hot loop, and to allow our node script to
-//	});                                     // process asynchronous requests in the meantime.
-//	                                          // If you're also serving http, display a 503 error.
-//	con.on('error', function(err) {
-//	    console.log('db error', err);
-//	    if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
-//	      handleDisconnect();
-//	      console.log("ket noi lai");                         // lost due to either server restart, or a
-//	    } else {                                      // connnection idle timeout (the wait_timeout
-//	      throw err;                                  // server variable configures this)
-//	    }
-//	});
-//}
+
+function handleDisconnect() {
+	 con = mysql.createConnection({
+	 host: "b034kdbmfuvinopgjuse-mysql.services.clever-cloud.com",
+	  user: "u20nnlbcqemoj3jy",
+	  password: "t7zRtkGhq0F1svEcGKlC",
+	   database: "b034kdbmfuvinopgjuse"
+	});
+
+	con.connect(function(err) {              // The server is either down
+	    if(err) {                                     // or restarting (takes a while sometimes).
+	      console.log('error when connecting to db:', err);
+	      setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+	    }                                     // to avoid a hot loop, and to allow our node script to
+	});                                     // process asynchronous requests in the meantime.
+	                                          // If you're also serving http, display a 503 error.
+	con.on('error', function(err) {
+	    console.log('db error', err);
+	    if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+	      handleDisconnect();
+	      console.log("ket noi lai");                         // lost due to either server restart, or a
+	    } else {                                      // connnection idle timeout (the wait_timeout
+	      throw err;                                  // server variable configures this)
+	    }
+	});
+}
 
 
 
