@@ -19,7 +19,7 @@ var ketqua;
 var device = {};
 
 
-//handleDisconnect();
+handleDisconnect();
 
 
 /*password ---------------------------------------------------------*/
