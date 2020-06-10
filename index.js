@@ -88,7 +88,7 @@ io.sockets.on('connection', function(socket){
 			}
 			else{
 				ketqua = true;
-				let sql1 = `INSERT INTO users(unique_id, name, email, encrypted_password, salt, create_at) values (  \'${uid}\', \'${name}\', \'${email}\', \'${password}\', \'${salt}\', \'${time}\')` ;
+				let sql1 = `INSERT INTO users(unique_id, name, email, encrypted_password, salt, create_at) values (  \'${uid}\', \'${name}\', \'${email}\', \'${password}\', \'${salt}\', \'${moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss')}\')` ;
 				con.query(sql1, function (err) {
 						console.log('mysql error 90',err);
 						//console.log('khong thanh cong');						
@@ -147,7 +147,7 @@ io.sockets.on('connection', function(socket){
 				console.log('mysql error 142',err);
 			});
 		});
-		sql = `INSERT INTO device${data.device_id}_log(chieuquay, tocdo, Thoigian) values (  \'${data.chieuquay}\', \'${data.tocdo}\', \'${time}\')`;
+		sql = `INSERT INTO device${data.device_id}_log(chieuquay, tocdo, Thoigian) values (  \'${data.chieuquay}\', \'${data.tocdo}\', \'${moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss')}\')`;
 		console.log(sql);
 		con.query(sql, function(err){
 			con.on('error', function(err){
