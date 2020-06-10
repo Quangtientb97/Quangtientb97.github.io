@@ -155,7 +155,7 @@ io.sockets.on('connection', function(socket){
 	socket.on('join-room-device', function(data){
 		device[data] = socket.id;
 		console.log(socket.id + ' connected');
-		con.query('SELECT unique_id FROM device where device_id=?',[data], function(err,result, fields){
+		con.query('SELECT unique_id FROM devices where device_id=?',[data], function(err,result, fields){
 			con.on('error',function(err){
 				console.log('mysql error 78',err);
 			});
