@@ -172,7 +172,7 @@ io.sockets.on('connection', function(socket){
 			con.on('error',function(err){
 				console.log('mysql error 113',err);
 			});
-			console.log('fields' + result);
+			console.log('fields' + result[0].COUNT(*));
 			
 	});
 
