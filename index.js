@@ -18,6 +18,8 @@ var con = mysql.createConnection({
 });
 var ketqua;
 var device = {};
+var app = {};
+var app_control = {};
 
 
 handleDisconnect();
@@ -153,13 +155,30 @@ io.sockets.on('connection', function(socket){
 			con.on('error', function(err){
 				console.log('mysql error 148',err);
 			});
-		});		
+		});	
+		socket.to(app[app_control[data]]).emit('send-motor', data);
+
 	});
 	//join room
 	socket.on('join-room-device', function(data){
 		device[data] = socket.id;
 		console.log(socket.id + ' connected');
+		con.query('SELECT unique_id FROM device where device_id=?',[data], function(err,result, fields){
+			con.on('error',function(err){
+				console.log('mysql error 78',err);
+			});
+			app_control[data] = result[0].unique_id;
+		});
+
 	});
+	socket.on('initial-app', function(data){
+		con.query('SELECT unique_id FROM users where email=?',[data], function(err,result, fields){
+			con.on('error',function(err){
+				console.log('mysql error 78',err);
+			});
+			app[result[0].unique_id] = socket.id;
+		});
+	})
 	socket.on('receive-motor', function(data){
 		console.log(socket.id + ' connected');
 		console.log(data);
@@ -174,15 +193,13 @@ io.sockets.on('connection', function(socket){
 			con.on('error',function(err){
 				console.log('mysql error 179',err);
 			});
-			if (result && result.length){
-				if (result[0].so_luong > 50000){
-					con.query(`DELETE FROM device${data.device_id}_log`, function(err,result, fields){
-						con.on('error',function(err){
+			if (result[0].so_luong > 50000){
+				con.query(`DELETE FROM device${data.device_id}_log`, function(err,result, fields){
+					con.on('error',function(err){
 							console.log('mysql error 184',err);
-						});	
-					console.log(`DELETE FROM device${data.device_id}_log`);			
-					});
-				}
+					});	
+				console.log(`DELETE FROM device${data.device_id}_log`);			
+				});
 			}
 		});	
 	});
