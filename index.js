@@ -140,7 +140,7 @@ io.sockets.on('connection', function(socket){
 	socket.on('update_data', function(data){
 		console.log(data);
 		console.log('socket id la: ' + socket.id);
-		let sql = `CREATE TABLE IF NOT EXISTS device${data.device_id}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,ThoiGian DATETIME, chieuquay VARCHAR(255), tocdo INT(10)) ENGINE = InnoDB` ;
+		let sql = `CREATE TABLE IF NOT EXISTS device${data.device_id}_log (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,ThoiGian TIMESTAMP, chieuquay VARCHAR(255), tocdo INT(10)) ENGINE = InnoDB` ;
 		con.query(sql, function(err){
 			con.on('error', function(err){
 				console.log('mysql error 142',err);
