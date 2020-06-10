@@ -7,6 +7,7 @@ var app = express();
 var server = require("http").createServer(app);
 var io = require("socket.io").listen(server);
 var fs = require("fs");
+var moment = require('moment-timezone');
 server.listen(8080);
 require('events').EventEmitter.prototype._maxListeners = 100;
 var con = mysql.createConnection({
@@ -21,10 +22,9 @@ var device = {};
 
 handleDisconnect();
 
-var moment = require('moment-timezone');
-var now= moment();
-var time=now.tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss');
-console.log(time);
+
+//var now = moment();
+
 
 
 /*password ---------------------------------------------------------*/
@@ -60,6 +60,7 @@ function checkHashPassword(userPassword,salt){
 
 /*bat su kien ket noi server-------------------------------------------------*/
 io.sockets.on('connection', function(socket){
+	var time = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss');
 	// dang ki tai khoan
 	socket.on('client-dang-ki-user', function(data){
 		//var ketqua;
@@ -159,11 +160,6 @@ io.sockets.on('connection', function(socket){
 		device[data] = socket.id;
 		console.log(socket.id + ' connected');
 	});
-
-	/*var asiaTime = new Date().toLocaleString("en-US", {timeZone: "Asia/Ho_chi_minh"});
-	asiaTime = new Date(asiaTime);
-	console.log('Asia time: ' + asiaTime.toLocaleString());*/
-
 	socket.on('receive-motor', function(data){
 		console.log(socket.id + ' connected');
 		console.log(data);
