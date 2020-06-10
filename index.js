@@ -176,11 +176,17 @@ io.sockets.on('connection', function(socket){
 		console.log('send to' + device[device_id]);
 		con.query(`SELECT COUNT(*) AS so_luong FROM device${data.device_id}_log`, function(err,result, fields){
 			con.on('error',function(err){
-				console.log('mysql error 113',err);
+				console.log('mysql error 179',err);
 			});
-			console.log('fields' + result[0].so_luong);
-		});
-	});	
+			if (result[0].so_luong > 50000){
+				con.query(`DELETE FROM device${data.device_id}_log`, function(err,result, fields){
+					con.on('error',function(err){
+						console.log('mysql error 184',err);
+					});				
+				});
+			}
+		});	
+	});
 	socket.on('disconnect', function(data){
 		console.log(socket.id + 'disconnect');
 	});	
