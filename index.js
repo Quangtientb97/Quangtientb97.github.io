@@ -179,6 +179,7 @@ io.sockets.on('connection', function(socket){
 				console.log('mysql error 113',err);
 			});
 			console.log('fields' + result[0].so_luong);
+		});
 	});	
 	socket.on('disconnect', function(data){
 		console.log(socket.id + 'disconnect');
