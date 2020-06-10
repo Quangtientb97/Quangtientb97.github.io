@@ -101,7 +101,6 @@ io.sockets.on('connection', function(socket){
 		});	
 	});
 	// dang nhap
-	
 	socket.on('client-dang-nhap-user', function(data){
 		var email    	  = data.email;
 		var user_password = data.password;
