@@ -172,7 +172,7 @@ io.sockets.on('connection', function(socket){
 			con.on('error',function(err){
 				console.log('mysql error 113',err);
 			});
-			console.log('fields' + result[0].COUNT(*));
+			console.log('fields' + result[0].COUNT;
 			
 	});
 
@@ -219,10 +219,7 @@ function handleDisconnect() {
 
 
 
-//var date = new Date().toLocaleString("en-US", {timeZone: "Asia/Ho_chi_minh"}).slice(0, 19).replace('T', ' ');
-var date = new Date().toISOString();//.slice(0, 19).replace('T', ' ');
-console.log(date);
-
-
-var date = new Date().toLocaleString("en-US", {timeZone: "Asia/Ho_chi_minh"});
-
+var moment = require('moment-timezone');
+var now= moment();
+var time=now.tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss');
+console.log(time);
