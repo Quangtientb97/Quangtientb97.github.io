@@ -96,14 +96,6 @@ io.sockets.on('connection', function(socket){
 						//console.log('khong thanh cong');						
 				});
 				console.log('thanh cong');
-				/*con.query('INSERT INTO `user`(`unique_id`, `name`, `email`, `encrypted_password`, `salt`, `create_at`, `updated_at`) VALUES (?,?,?,?,?,NOW(),NOW())',[uid,name,email,password,salt],function(err,result, fields){
-					con.on('error',function(err){
-						console.log('mysql error',err);
-						console.log('khong thanh cong');						
-				});
-				console.log('thanh cong');
-				//socket.emit('ket-qua-dang-ki',{noidung: ketqua});
-				});*/
 			}
 			socket.emit('ket-qua-dang-ki',{noidung: ketqua});
 		});	
