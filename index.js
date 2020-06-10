@@ -21,6 +21,11 @@ var device = {};
 
 handleDisconnect();
 
+var moment = require('moment-timezone');
+var now= moment();
+var time=now.tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss');
+console.log(time);
+
 
 /*password ---------------------------------------------------------*/
 var getRandomString =function(length){
@@ -82,7 +87,7 @@ io.sockets.on('connection', function(socket){
 			}
 			else{
 				ketqua = true;
-				let sql1 = `INSERT INTO users(unique_id, name, email, encrypted_password, salt, create_at) values (  \'${uid}\', \'${name}\', \'${email}\', \'${password}\', \'${salt}\', CURTIME())` ;
+				let sql1 = `INSERT INTO users(unique_id, name, email, encrypted_password, salt, create_at) values (  \'${uid}\', \'${name}\', \'${email}\', \'${password}\', \'${salt}\', \'${time}\'')` ;
 				con.query(sql1, function (err) {
 						console.log('mysql error 90',err);
 						//console.log('khong thanh cong');						
@@ -141,7 +146,7 @@ io.sockets.on('connection', function(socket){
 				console.log('mysql error 142',err);
 			});
 		});
-		sql = `INSERT INTO device${data.device_id}_log(chieuquay, tocdo, Thoigian) values (  \'${data.chieuquay}\', \'${data.tocdo}\', CURTIME())`;
+		sql = `INSERT INTO device${data.device_id}_log(chieuquay, tocdo, Thoigian) values (  \'${data.chieuquay}\', \'${data.tocdo}\', \'${time}\')`;
 		con.query(sql, function(err){
 			con.on('error', function(err){
 				console.log('mysql error 148',err);
@@ -168,14 +173,11 @@ io.sockets.on('connection', function(socket){
 		const obj = JSON.parse(json);
 		socket.to(device[device_id]).emit('send-motor', obj);
 		console.log('send to' + device[device_id]);
-		con.query('SELECT COUNT(*) FROM users', function(err,result, fields){
+		/*con.query('SELECT COUNT(*) FROM users', function(err,result, fields){
 			con.on('error',function(err){
 				console.log('mysql error 113',err);
 			});
-			console.log('fields' + result);
-			
-	});
-
+			console.log('fields' + result);*/
 	});	
 	socket.on('disconnect', function(data){
 		console.log(socket.id + 'disconnect');
@@ -219,7 +221,3 @@ function handleDisconnect() {
 
 
 
-var moment = require('moment-timezone');
-var now= moment();
-var time=now.tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DD HH:mm:ss');
-console.log(time);
