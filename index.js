@@ -156,7 +156,7 @@ io.sockets.on('connection', function(socket){
 				console.log('mysql error 148',err);
 			});
 		});	
-		socket.to(app[app_control[data]]).emit('send-motor', data);
+		socket.to(app[app_control[data.device_id]]).emit('send-app', data);
 
 	});
 	//join room
