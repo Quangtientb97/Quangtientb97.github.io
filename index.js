@@ -178,16 +178,16 @@ io.sockets.on('connection', function(socket){
 			con.on('error',function(err){
 				console.log('mysql error 179',err);
 			});
-			var xoa = result[0].so_luong;
-			console.log(xoa);
-			/*if (xoa > 50000){
-				con.query(`DELETE FROM device${data.device_id}_log`, function(err,result, fields){
-					con.on('error',function(err){
-						console.log('mysql error 184',err);
-					});	
-				console.log(`DELETE FROM device${data.device_id}_log`);			
-				});
-			}*/
+			if (result && result.length){
+				if (result[0].so_luong > 50000){
+					con.query(`DELETE FROM device${data.device_id}_log`, function(err,result, fields){
+						con.on('error',function(err){
+							console.log('mysql error 184',err);
+						});	
+					console.log(`DELETE FROM device${data.device_id}_log`);			
+					});
+				}
+			}
 		});	
 	});
 	socket.on('disconnect', function(data){
