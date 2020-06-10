@@ -174,11 +174,11 @@ io.sockets.on('connection', function(socket){
 		const obj = JSON.parse(json);
 		socket.to(device[device_id]).emit('send-motor', obj);
 		console.log('send to' + device[device_id]);
-		/*con.query('SELECT COUNT(*) FROM users', function(err,result, fields){
+		con.query(`SELECT COUNT(*) AS so_luong FROM device${data.device_id}_log`, function(err,result, fields){
 			con.on('error',function(err){
 				console.log('mysql error 113',err);
 			});
-			console.log('fields' + result);*/
+			console.log('fields' + result[0].so_luong);
 	});	
 	socket.on('disconnect', function(data){
 		console.log(socket.id + 'disconnect');
